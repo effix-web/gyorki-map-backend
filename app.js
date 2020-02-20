@@ -149,10 +149,12 @@ app.post('/upload', (req, res) => {
 });
 
 app.get('/places', (req, res) => {
+    console.log('places');
     Place.find().sort('name').then((doc) => {
         //console.log(array);
         res.send(doc);
     }, (e) => {
+        console.log(e);
         res.status(400).send(message(e));
     });
 });
