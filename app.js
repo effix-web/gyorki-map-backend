@@ -169,27 +169,33 @@ app.get('/download', (req, res) => {
         let worksheet = workbook.addWorksheet('Adatok');
 
 
-        /*doc.forEach((row) => {
+        doc.forEach((row) => {
             worksheet.addRow(row.convertToArray());
             //data.push(row.convertToArray());
-        });*/
+        });
 
-        worksheet.addRow(['test', 'test20']);
+        //worksheet.addRow(['test', 'test20']);
 
-        workbook.xlsx.writeFile('./xls/download/gyorki_database.xlsx')
+        /*console.log(workbook);
+        res.send(JSON.stringify(workbook));*/
+
+        workbook.xlsx.writeFile(`${__dirname}/xls/download/gyorki_database.xlsx`)
             .then(() => {
-                fs.readFile('./xls/download/gyorki_database.xlsx', function (err, data) {
-                    if (err) res.status(400).send();
-
-                    let base64file = Buffer.from(data).toString('base64');
-                    const options = {
-                        headers: {
-                            'content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8'
-                        }
-                    };
-                    res.sendFile(`${__dirname}/xls/download/gyorki_database.xlsx`, options);
-                })
+                res.setHeader('Content-disposition', 'attachment; filename=gyorki_database.xlsx');
+                res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                res.sendFile(`${__dirname}/xls/download/gyorki_database.xlsx`, '',
+                    function(err){
+                        if(err) console.log(err);
+                        
+                        console.log('success');
+                    });
+            })
+            .catch((e) => {
+                console.log(e);
             });
+
+
+
 
 
         //const dataSheet1 = [[1, 2, 3], [true, false, null, 'sheetjs'], ['foo', 'bar', new Date('2014-02-19T14:30Z'), '0.3'], ['baz', null, 'qux']];
