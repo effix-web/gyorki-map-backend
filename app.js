@@ -161,60 +161,8 @@ app.get('/places', (req, res) => {
 
 app.get('/download', (req, res) => {
     Place.find().sort('name').then((doc) => {
-        //console.log(doc);
-        //let data = [];
-        let workbook = new Excel.Workbook();
-        workbook.created = new Date();
-
-        let worksheet = workbook.addWorksheet('Adatok');
-
-
-        doc.forEach((row) => {
-            worksheet.addRow(row.convertToArray());
-            //data.push(row.convertToArray());
-        });
-
-        //worksheet.addRow(['test', 'test20']);
-
-        /*console.log(workbook);
-        res.send(JSON.stringify(workbook));*/
-
-        workbook.xlsx.writeFile(`${__dirname}/xls/download/gyorki_database.xlsx`)
-            .then(() => {
-                res.setHeader('Content-disposition', 'attachment; filename=gyorki_database.xlsx');
-                res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                res.sendFile(`${__dirname}/xls/download/gyorki_database.xlsx`, '',
-                    function(err){
-                        if(err) console.log(err);
-                        
-                        console.log('success');
-                    });
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-
-
-
-
-
-        //const dataSheet1 = [[1, 2, 3], [true, false, null, 'sheetjs'], ['foo', 'bar', new Date('2014-02-19T14:30Z'), '0.3'], ['baz', null, 'qux']];
-        //let buffer = xlsx.build([{name: "Adatok", data: data}]);
-
-
-        /*fs.writeFile('./xls/download/gyorki_database.xlsx', buffer, function (err) {
-            if (err) {
-                console.log(err);
-            }
-            let file = `./xls/download/gyorki_database.xlsx`;
-            let base64file = Buffer.from(buffer).toString('base64');
-            //res.download(base64file);
-            console.log(base64file);
-            res.write(base64file);
-            res.end();
-        });*/
-        //res.send(new Buffer(buffer));
-
+        //Sending the raw data back to be created on the client side, I know, don't judge me
+        if(doc) res.send(doc);
     }, (e) => {
         res.status(400).send(message(e));
     });
@@ -222,11 +170,11 @@ app.get('/download', (req, res) => {
 
 
 // catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -235,7 +183,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});*/
+});
 
 
 module.exports = app;
