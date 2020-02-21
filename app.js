@@ -116,7 +116,7 @@ app.post('/upload', (req, res) => {
         }
         let parsedFile = xlsx.parse('./xls/upload/' + file.name)[0];
 
-        for (let i = 1; i < parsedFile.data.length; i++) {
+        for (let i = 0; i < parsedFile.data.length; i++) {
             let place = new Place();
             let data = parsedFile.data[i];
             place.name = data[0];
