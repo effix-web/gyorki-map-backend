@@ -159,10 +159,28 @@ app.get('/places', (req, res) => {
     });
 });
 
+app.delete('/place', (req, res) => {
+    console.log(req.body.id);
+    Place.deleteOne({_id: req.body.id}, function(err, response){
+       if(err) res.status(400).send(message('Cannot delete place'));
+
+       res.send(req.body.id);
+    });
+
+
+
+    Place.find({_id: req.params.id}).then((doc) => {
+        if(doc) doc.deleteOne();
+        res.send(message(req.params.id));
+    }, (e) => {
+        res.status(400).send(message("Can't delete place"));
+    });
+});
+
 app.get('/download', (req, res) => {
     Place.find().sort('name').then((doc) => {
         //Sending the raw data back to be created on the client side, I know, don't judge me
-        if(doc) res.send(doc);
+        if (doc) res.send(doc);
     }, (e) => {
         res.status(400).send(message(e));
     });
@@ -170,19 +188,19 @@ app.get('/download', (req, res) => {
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+    next(createError(404));
 });
 
 
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 
