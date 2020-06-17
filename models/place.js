@@ -22,6 +22,14 @@ let PlaceSchema = new Schema({
         type: String,
         required: true
     },
+    tetra: {
+        type: Boolean,
+        required: true
+    },
+    gazirtas: {
+        type: Boolean,
+        required: true
+    },
     approach: {
         type: String,
         required: true
@@ -35,12 +43,10 @@ let PlaceSchema = new Schema({
         required: true
     },
     technology: {
-        type: String,
-        required: true
+        type: String
     },
     owner: {
-        type: String,
-        required: true
+        type: String
     }
 });
 

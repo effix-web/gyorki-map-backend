@@ -119,10 +119,13 @@ app.post('/upload', (req, res) => {
         for (let i = 0; i < parsedFile.data.length; i++) {
             let place = new Place();
             let data = parsedFile.data[i];
+            console.log(data[4].toLowerCase());
             place.name = data[0];
             place.coordinates = data[1];
-            place.county = data[4];
-            place.address = data[5];
+            place.county = data[2];
+            place.address = data[3];
+            place.tetra = (data[4].toLowerCase() === 'igen');
+            place.gazirtas =  (data[5].toLowerCase() === 'igen');
             place.approach = data[6];
             place.contact = data[7];
             place.entrance = data[8];
@@ -130,11 +133,13 @@ app.post('/upload', (req, res) => {
             place.owner = data[10];
 
             place.save().then((doc) => {
+                //console.log(doc);
                 res.send({
                     type: 'place',
                     payload: true
                 });
             }, (e) => {
+                console.log(e);
                 res.status(400).send(message('Couldn\'t save place'));
             });
             /*parsedFile.data[i].forEach((col) => {
@@ -151,12 +156,36 @@ app.post('/upload', (req, res) => {
 app.get('/places', (req, res) => {
     console.log('places');
     Place.find().sort('name').then((doc) => {
-        //console.log(array);
+        console.log(doc);
         res.send(doc);
     }, (e) => {
         console.log(e);
         res.status(400).send(message(e));
     });
+});
+
+app.post('/place', (req, res) => {
+    console.log(req.body);
+    let newPlace = new Place();
+
+    newPlace.name = req.body.name;
+    newPlace.coordinates = req.body.coordinates;
+    newPlace.county = req.body.county;
+    newPlace.address = req.body.address;
+    newPlace.tetra = req.body.tetra;
+    newPlace.gazirtas = req.body.gazirtas;
+    newPlace.approach = req.body.approach;
+    newPlace.contact = req.body.contact;
+    newPlace.entrance = req.body.entrance;
+    newPlace.technology = req.body.technology;
+    newPlace.owner = req.body.owner;
+
+    newPlace.save().then((doc) => {
+        if(doc) res.send(message('Place successfully added'));
+    }, (err) => {
+       console.log(err);
+    });
+
 });
 
 app.delete('/place', (req, res) => {
