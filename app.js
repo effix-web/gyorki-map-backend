@@ -103,7 +103,7 @@ app.post('/register', (req, res) => {
     });
 });
 
-app.post('/upload',cors(), (req, res) => {
+app.post('/upload', (req, res) => {
     //console.log(req.files.file);
     let file = req.files.file;
 
