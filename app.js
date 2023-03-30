@@ -121,13 +121,13 @@ app.post('/upload', (req, res) => {
         for (let i = 0; i < parsedFile.data.length; i++) {
             let place = new Place();
             let data = parsedFile.data[i];
-            console.log(data[4].toLowerCase());
+            console.log((data[4] || "").toLowerCase());
             place.name = data[0];
             place.coordinates = data[1];
             place.county = data[2];
             place.address = data[3];
-            place.tetra = (data[4].toLowerCase() === 'igen');
-            place.gazirtas =  (data[5].toLowerCase() === 'igen');
+            place.tetra = ((data[4] || "").toLowerCase() === 'igen');
+            place.gazirtas =  ((data[5] || "").toLowerCase() === 'igen');
             place.approach = data[6];
             place.contact = data[7];
             place.entrance = data[8];
