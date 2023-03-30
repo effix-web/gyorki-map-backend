@@ -36,11 +36,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://adatbazis.gyorki.hu"); // cors
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
 
 app.post('/login', (req, res) => {
     let loginUser = new User({
@@ -108,7 +103,7 @@ app.post('/register', (req, res) => {
     });
 });
 
-app.post('/upload', (req, res) => {
+app.post('/upload',cors(), (req, res) => {
     //console.log(req.files.file);
     let file = req.files.file;
 
