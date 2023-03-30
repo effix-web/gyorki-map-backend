@@ -36,7 +36,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: 'https://adatbazis.gyorki.hu',
+  origin: 'https://adatbazis.gyorki.hu/*',
   methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
   optionsSuccessStatus: 200
 }));
