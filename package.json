@@ -2,7 +2,7 @@
   "name": "gyorki-map-backend",
   "version": "0.0.0",
   "engines": {
-    "node": "18.x",
+    "node": "14.x",
     "npm": "9.6.7"
   },
   "private": true,
