@@ -50,6 +50,7 @@ app.post('/login', (req, res) => {
 
 
     User.findOne({username: loginUser.username}, function (err, user) {
+         return res.status(400).send(message("Hiba történt."));
         if (user) {
             if (err) {
                 return res.status(400).send(message("Incorrect username/password"));
